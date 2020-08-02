@@ -1,0 +1,157 @@
+
+<div>
+
+  <div style="display: flex; margin: 30px 10px 10px;">
+    <div style="width: 20%; margin-right: 2%; height: min-content" class="mat-elevation-z8">
+
+      <div style="display: flex; margin: 10px">
+        <div style="width: 10%" *ngIf="model  && model.toString().length > 0">
+
+          <button mat-mini-fab color="primary" (click)="restart()">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </div>
+
+        <div style="width: 90%; text-align:center;">
+          <h4 style="text-align:center;" *ngIf="!model._id"> Ajouter un utilisateur</h4>
+          <h4 style="text-align:center;" *ngIf="model._id"> Modifier un utilisateur</h4>
+        </div>
+      </div>
+
+      <div style="margin: 10px">
+        <form [formGroup]="form" style="width: 100%" name="form" *ngIf="model">
+          <mat-form-field style="width: 100%">
+            <mat-label>Nom</mat-label>
+            <label>
+              <input matInput name="nom" placeholder="Nom" formControlName="nom" required>
+            </label>
+            <mat-icon matSuffix>perm_identity</mat-icon>
+            <mat-error
+              *ngIf="form.controls['nom']
+              && form.controls['nom'].invalid
+              && form.controls['nom'].errors['required']">
+              Le nom est réquis
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field style="width: 100%">
+            <mat-label>Prenom</mat-label>
+            <label>
+              <input matInput name="prenom" placeholder="prenom" formControlName="prenom" required>
+            </label>
+            <mat-icon matSuffix>perm_identity</mat-icon>
+            <mat-error
+              *ngIf="form.controls['prenom']
+              && form.controls['prenom'].invalid
+              && form.controls['prenom'].errors['required']">
+              Le prenom est réquis
+            </mat-error>
+          </mat-form-field>
+
+
+          <mat-form-field style="width: 100%">
+            <mat-label>Téléphone</mat-label>
+            <label>
+              <input matInput name="telephone" placeholder="telephone" formControlName="telephone" required>
+            </label>
+            <mat-icon matSuffix>local_phone</mat-icon>
+            <mat-error
+              *ngIf="form.controls['telephone']
+              && form.controls['telephone'].invalid
+              && form.controls['telephone'].errors['required']">
+              Le téléphone est réquis
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field style="width: 100%">
+            <mat-label>Adresse</mat-label>
+            <label>
+              <input matInput name="adresse" placeholder="adresse" formControlName="adresse">
+            </label>
+            <mat-icon matSuffix>label</mat-icon>
+
+          </mat-form-field>
+
+          <!-- FORM BUTTONS -->
+          <div class="ligne-sauvegarder-formulaire" style="width: 100%">
+            &nbsp;
+            <button style="width: 100%" mat-raised-button color="primary" *ngIf="!model._id" [disabled]="!form.valid"
+                    (click)="save()">Enregistrer<i class="material-icons">check</i>
+            </button>
+            &nbsp;
+            <button style="width: 100%" mat-raised-button color="primary"  *ngIf="model._id" [disabled]="!form.valid"
+                    (click)="update()">Mettre à jour<i class="material-icons">check</i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div style="width: 78%; height: auto;" class="mat-elevation-z1">
+
+      <div style="margin: 10px">
+
+        <div style="display: flex; margin: 10px">
+          <div style="width: 10%">
+
+            <button mat-mini-fab color="primary" (click)="getChat()">
+              <mat-icon>refresh</mat-icon>
+            </button>
+          </div>
+
+          <div style="width: 90%">
+            <h4 style="text-align:center;">Liste des utilisateurs</h4>
+          </div>
+        </div>
+
+        <div style="min-height: min-content;  max-height: 550px; overflow: auto;">
+
+          <table mat-table [dataSource]="userData">
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="nom">
+              <th mat-header-cell *matHeaderCellDef> Nom</th>
+              <td mat-cell *matCellDef="let element"> {{element.nom}} </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="prenom">
+              <th mat-header-cell *matHeaderCellDef> Prenom</th>
+              <td mat-cell *matCellDef="let element"> {{element.prenom}} </td>
+            </ng-container>
+
+            <!-- Weight Column -->
+            <ng-container matColumnDef="adresse">
+              <th mat-header-cell *matHeaderCellDef> Adresse</th>
+              <td mat-cell *matCellDef="let element"> {{element.adresse}} </td>
+            </ng-container>
+
+
+            <!-- telephone Column -->
+            <ng-container matColumnDef="telephone">
+              <th mat-header-cell *matHeaderCellDef> Telephone</th>
+              <td mat-cell *matCellDef="let element"> {{element.telephone}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions" stickyEnd>
+              <th mat-header-cell *matHeaderCellDef>Action</th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-mini-fab color="primary" class="button24d" (click)="toUpdate(element)">
+                  <mat-icon class="icon24d">edit</mat-icon>
+                </button>&nbsp;
+                <button mat-mini-fab color="primary" (click)="delete(element)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="columns"></tr>
+            <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
